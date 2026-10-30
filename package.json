@@ -1,0 +1,32 @@
+{
+  "name": "sonicwire",
+  "private": true,
+  "version": "0.1.0",
+  "description": "SonicWire \u2014 universal media intelligence and creation ecosystem",
+  "type": "module",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm-run-all -p dev:server dev:web",
+    "dev:server": "npm run dev --workspace @sonicwire/server",
+    "dev:web": "npm run dev --workspace @sonicwire/web",
+    "build": "npm run build --workspace @sonicwire/contracts && npm run build --workspace @sonicwire/server && npm run build --workspace @sonicwire/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "verify": "npm run typecheck && npm run test && npm run build",
+    "start": "node scripts/start.mjs",
+    "check": "npm run typecheck && npm run lint:ui && npm run test",
+    "dev:core": "bash services/media-core/run.sh",
+    "lint:ui": "node scripts/check-ui-rules.mjs"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3"
+  }
+}

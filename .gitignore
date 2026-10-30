@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Runtime data: SQLite database, quarantine, media, exports, tmp
+var/
+uploads/
+exports/
+
+# Environment / secrets — never commit real credentials
+.env
+.env.*
+!.env.example
+
+# Test + tooling artifacts
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+*.log
+.DS_Store
+
+# Python service (media-core): virtualenv, bytecode and test caches
+**/.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
