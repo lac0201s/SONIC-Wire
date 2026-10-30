@@ -1,0 +1,209 @@
+@import 'tailwindcss';
+
+/**
+ * SonicWire design tokens — Cinematic Industrial.
+ *
+ * Surfaces are layered obsidian → graphite → steel; the accent is a single
+ * molten ember. Nothing is allowed to glow without meaning: warmth marks
+ * actionable or live state, cool plasma marks measured data.
+ */
+@theme {
+  --color-obsidian: #060709;
+  --color-graphite: #0a0c0f;
+  --color-steel: #0f1216;
+  --color-iron: #151920;
+  --color-slate-panel: #1b2029;
+  --color-hairline: rgba(255, 255, 255, 0.075);
+  --color-hairline-strong: rgba(255, 255, 255, 0.14);
+  --color-ink: #eceae5;
+  --color-mute: #949aa4;
+  /* Secondary text. Measured 4.64:1 on the lightest panel (slate-panel) and
+     6.32:1 on obsidian, so micro-labels stay AA-compliant at 10px. */
+  --color-dim: #818997;
+  --color-ember: #ff7a2f;
+  --color-ember-soft: #ffb287;
+  --color-ember-deep: #b8480f;
+  --color-plasma: #7fd9cd;
+  --color-signal: #93aecb;
+  --color-danger: #ff5f56;
+  --color-warn: #ffc65c;
+  --color-ok: #7bd88f;
+
+  --font-display: 'Bricolage Grotesque Variable', 'Inter Variable', system-ui, sans-serif;
+  --font-sans: 'Inter Variable', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+
+  --radius-xs: 3px;
+  --radius-sm: 5px;
+  --radius-md: 9px;
+  --radius-lg: 14px;
+
+  --ease-industrial: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-hairline);
+  }
+
+  html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-obsidian);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv11', 'ss01';
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-ember) 32%, transparent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ember);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #20252d;
+    border-radius: 999px;
+    border: 3px solid var(--color-obsidian);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2c333d;
+  }
+}
+
+@layer components {
+  /*
+   * Surfaces are flat. Separation is one tone step plus a quiet 1px rule, never a
+   * gradient, glow or shadow at rest (see docs/02-design/art-direction-concepts.md
+   * and the app-screen study summarised in docs/02-design/visual-research-board.md).
+   */
+  .sw-panel {
+    position: relative;
+    background: var(--color-steel);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-md);
+  }
+
+  .sw-panel-raised {
+    background: var(--color-iron);
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: var(--radius-md);
+  }
+
+  /* Labels are type, not decoration: sentence case, no tracking, no mono. */
+  .sw-label {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--color-dim);
+  }
+
+  /* Numbers line up without pretending to be code. */
+  .sw-num {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .sw-hairline {
+    height: 1px;
+    background: var(--color-hairline);
+  }
+
+  .sw-focus-ring {
+    outline: 2px solid var(--color-ember);
+    outline-offset: 2px;
+  }
+
+  .sw-scroll-x {
+    scrollbar-width: thin;
+  }
+
+  /* Motion: purposeful, short, and disabled entirely under reduced motion. */
+  @keyframes sw-rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes sw-pulse-soft {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes sw-scan {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(1200%);
+    }
+  }
+
+  .sw-rise {
+    animation: sw-rise 520ms var(--ease-industrial) both;
+  }
+
+  .sw-live-dot {
+    animation: sw-pulse-soft 2.4s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
