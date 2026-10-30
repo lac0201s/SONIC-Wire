@@ -1,0 +1,5 @@
+# Test-only dependencies. Kept separate so the runtime image stays small:
+# httpx is what FastAPI's TestClient drives, pytest is the runner.
+-r requirements.txt
+pytest>=8,<10
+httpx>=0.27,<1
